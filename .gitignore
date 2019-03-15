@@ -3,6 +3,7 @@
 *.swo
 *.swn
 *.pyc
+*.env
 survey.db
 django_survey_and_report.egg-info/
 survey_test/static/

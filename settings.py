@@ -2,6 +2,7 @@
 
 import logging
 import os
+from decouple import config, Csv
 
 try:
     import colorama
@@ -20,9 +21,11 @@ print(
     "\033[39m"
 )
 
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 CSV_DIR = os.path.join(ROOT, "csv")
+SECRET_KEY = config('SECRET_KEY')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -30,14 +33,9 @@ logging.basicConfig(
 )
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",  # Add 'postgresql_psycopg2',
-        # 'mysql', 'sqlite3' or 'oracle'
-        "NAME": "survey.db",  # Or path to database file if using sqlite3
-        "USER": "",  # Not used with sqlite3
-        "PASSWORD": "",  # Not used with sqlite3.
-        "HOST": "",  # Set to empty string for localhost. Not used with sqlite3
-        "PORT": "",  # Set to empty string for default. Not used with sqlite3
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': config('DB_NAME'),
     }
 }
 
@@ -46,9 +44,9 @@ USER_DID_NOT_ANSWER = "Left blank"
 TEX_CONFIGURATION_FILE = os.path.join(ROOT, "doc", "example_conf.yaml")
 SURVEY_DEFAULT_PIE_COLOR = "red!50"
 
-LANGUAGE_CODE = "en-us"
 SITE_ID = 1
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = 'ru-RU'
+TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -127,6 +125,7 @@ LOCALE_PATHS = (os.path.join(ROOT, "survey", "locale"),)
 LANGUAGE_CODE = "en"
 LANGUAGES = (
     ("en", "english"),
+    ('ru', 'russian'),
     ("es", "spanish"),
     ("fr", "french"),
     ("ja", "Japanese"),
